@@ -5,6 +5,10 @@ It just adds the validation step between decoding and denormalization.
 
 ## Installation
 
+```shell
+composer require revenkroz/validating-param-converter
+```
+
 Add service to your `services.yaml`:
 ```yaml
 Revenkroz\ValidatingParamConverter\Request\ParamConverter\ValidatingParamConverter:

@@ -2,8 +2,9 @@
   "name": "revenkroz/validating-param-converter",
   "description": "Param Converter with request validation",
   "keywords": [],
-  "homepage": "https://gitlab.inglorium.com/revenkroz/validation-param-converter",
+  "homepage": "https://github.com/revenkroz/validating-param-converter",
   "type": "library",
+  "license": "MIT",
   "require": {
     "php": "^8.0",
     "sensio/framework-extra-bundle": "^6",

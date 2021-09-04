@@ -17,12 +17,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ValidatingParamConverter implements ParamConverterInterface
 {
     private const DEFAULT_FORMAT = 'json';
-    private const SUPPORTED_CONTENT_TYPES = [
-        'application/json',
-        'application/json-patch+json',
-        'application/ld+json',
-        'application/hal+json',
-    ];
 
     public function __construct(
         private DecoderInterface $decoder,
@@ -38,10 +32,6 @@ class ValidatingParamConverter implements ParamConverterInterface
     {
         if (!\in_array($request->getMethod(), [Request::METHOD_POST, Request::METHOD_PUT, Request::METHOD_PATCH], true)) {
             return;
-        }
-
-        if (!\in_array($request->headers->get('Content-Type'), self::SUPPORTED_CONTENT_TYPES, true)) {
-            throw new BadRequestHttpException('Unsupported content type.');
         }
 
         try {

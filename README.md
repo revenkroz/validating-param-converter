@@ -23,7 +23,7 @@ Create a DTO that implements `ValidatableParamInterface`:
 ```php
 use Revenkroz\ValidatingParamConverter\Request\ValidatableParamInterface;
 
-class YourDto implements ValidatableDtoInterface
+class YourDto implements ValidatableParamInterface
 {
     public static function getRequestConstraint(): Constraint
     {
@@ -42,7 +42,7 @@ To validate a query using your validation groups, use the `CustomGroupsValidatab
 ```php
 use Revenkroz\ValidatingParamConverter\Request\CustomGroupsValidatableParamInterface;
 
-class YourDto implements ValidatableDtoInterface
+class YourDto implements CustomGroupsValidatableParamInterface
 {
     public static function getRequestConstraint(): Constraint
     {

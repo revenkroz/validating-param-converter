@@ -2,8 +2,9 @@
 
 namespace Revenkroz\ValidatingParamConverter\Request\ParamConverter;
 
-use Revenkroz\ValidatingParamConverter\DTO\ValidatableDtoInterface;
 use Revenkroz\ValidatingParamConverter\Exception\ValidationException;
+use Revenkroz\ValidatingParamConverter\Request\CustomGroupsValidatableParamInterface;
+use Revenkroz\ValidatingParamConverter\Request\ValidatableParamInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class ValidatingParamConverter implements ParamConverterInterface
         }
 
         if (!\in_array($request->headers->get('Content-Type'), self::SUPPORTED_CONTENT_TYPES, true)) {
-            return;
+            throw new BadRequestHttpException('Unsupported content type.');
         }
 
         try {
@@ -50,7 +51,16 @@ class ValidatingParamConverter implements ParamConverterInterface
         }
 
         $constraint = \call_user_func([$configuration->getClass(), 'getRequestConstraint']);
-        $violations = $this->validator->validate($data, $constraint);
+        $validationGroups = null;
+        if (is_subclass_of($configuration->getClass(), CustomGroupsValidatableParamInterface::class)) {
+            $validationGroups = \call_user_func([$configuration->getClass(), 'getRequestValidationGroups']);
+        }
+
+        $violations = $this->validator->validate(
+            $data,
+            $constraint,
+            $validationGroups,
+        );
         if ($violations->count() > 0) {
             throw new ValidationException($violations);
         }
@@ -69,6 +79,6 @@ class ValidatingParamConverter implements ParamConverterInterface
             return false;
         }
 
-        return is_subclass_of($configuration->getClass(), ValidatableDtoInterface::class);
+        return is_subclass_of($configuration->getClass(), ValidatableParamInterface::class);
     }
 }

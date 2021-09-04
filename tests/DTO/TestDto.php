@@ -2,11 +2,11 @@
 
 namespace Revenkroz\ValidatingParamConverter\Tests\DTO;
 
-use Revenkroz\ValidatingParamConverter\DTO\ValidatableDtoInterface;
+use Revenkroz\ValidatingParamConverter\Request\ValidatableParamInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class TestDto implements ValidatableDtoInterface
+class TestDto implements ValidatableParamInterface
 {
     public string $firstVar = '';
     public int $secondVar = 0;

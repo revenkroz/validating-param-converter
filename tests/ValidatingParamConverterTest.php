@@ -97,10 +97,9 @@ final class ValidatingParamConverterTest extends TestCase
 
         $manager = new ParamConverterManager();
         $manager->add($this->converter, 0, self::CONVERTER_NAME);
-        $manager->apply($request, [$this->createConfiguration()]);
 
-        $originalData = $request->attributes->get(self::PARAM_KEY);
-        $this->assertNull($originalData);
+        $this->expectException(BadRequestHttpException::class);
+        $manager->apply($request, [$this->createConfiguration()]);
     }
 
     private function createConfiguration(): ParamConverter

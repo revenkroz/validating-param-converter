@@ -19,11 +19,16 @@ Revenkroz\ValidatingParamConverter\Request\ParamConverter\ValidatingParamConvert
 
 ## Usage
 
-Create a DTO that implements `ValidatableDtoInterface`:
+Create a DTO that implements `ValidatableParamInterface`:
 ```php
+use Revenkroz\ValidatingParamConverter\Request\ValidatableParamInterface;
+
 class YourDto implements ValidatableDtoInterface
 {
-    // ...
+    public static function getRequestConstraint(): Constraint
+    {
+        // ...
+    }
 }
 ```
 
@@ -31,4 +36,22 @@ Get your DTO in controller method:
 
 ```php
 public function customAction(YourDto $dto, Request $request): Response {}
+```
+
+To validate a query using your validation groups, use the `CustomGroupsValidatableParamInterface` interface instead:
+```php
+use Revenkroz\ValidatingParamConverter\Request\CustomGroupsValidatableParamInterface;
+
+class YourDto implements ValidatableDtoInterface
+{
+    public static function getRequestConstraint(): Constraint
+    {
+        // ...
+    }
+
+    public static function getRequestValidationGroups(): array
+    {
+        return ['one_group', 'another_group'];
+    }
+}
 ```
